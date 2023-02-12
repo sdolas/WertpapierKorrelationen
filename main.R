@@ -2,7 +2,6 @@ if(!require("librarian")){install.packages("librarian")}
 librarian::shelf("plotly", "ggplot2", "gapminder", "quantmod", "gifski",  
                  "reshape2", "tidyr", "runner", "gridExtra", "gganimate")
 
-
 cor.ts <- function(tsdata, window=30, skip=30, method="pearson"){
   #' Calculate correlation
   #'
@@ -43,14 +42,13 @@ data <- do.call(cbind, lapply(tickers, function(x){
   getSymbols(Symbol=x, auto.assign = F, warnings = F)[,4]
 })) |> na.omit() |> `colnames<-`(tickers_clean)
 
-
 # Nutze cor.ts Funktion um Korrelation zu berechnen
 plotdata <- cor.ts(data, window = 90, skip=14)
 
 # Erstelle interaktiven Plot mit ggplotly
 p <- ggplot(plotdata, aes(Var1, Var2, fill=value, frame=date)) +
   geom_tile()+
-  scale_fill_gradient2(high = "black", mid = "grey", low = "white", midpoint = 0,
+  scale_fill_gradient2(high = "black", mid = "white", low = "black", midpoint = 0,
                        limit = c(-1, 1), space = "Lab", name="Correlation") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))+
